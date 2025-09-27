@@ -36,7 +36,8 @@ import java.util.regex.*;
 import org.json.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import android.graphics.pdf.PdfRenderer;
+import android.graphics.pdf.PdfRenderer;
+
 
 public class MainActivity extends AppCompatActivity {
 	
@@ -234,27 +235,26 @@ public class MainActivity extends AppCompatActivity {
 			}
 		}
 		
-		    // إزالة الصفحات البعيدة من الكاش
-		    pageCache.snapshot().keySet().removeIf(i -> {
-			        if (i < start || i > end) {
-				            Bitmap bmp = pageCache.get(i);
-				            if (bmp != null && !bmp.isRecycled()) {
-					                pageCache.remove(i);
-					                mainHandler.post(() -> {
-						                    ImageView img = pageViews.get(i);
-						                    if (img != null) img.setImageDrawable(null);
-						                });
-					                bmp.recycle();
-					            }
-				            return true;
-				        }
-			        return false;
-			    });
-		
+		// Remove remote pages from cache
+		pageCache.snapshot().keySet().removeIf(i -> {
+			if (i < start || i > end) {
+				Bitmap bmp = pageCache.get(i);
+				if (bmp != null && !bmp.isRecycled()) {
+					pageCache.remove(i);
+					mainHandler.post(() -> {
+						ImageView img = pageViews.get(i);
+						if (img != null) img.setImageDrawable(null);
+					});
+					bmp.recycle();
+				}
+				return true;
+			}
+			return false;
+		});
 	}
 	
 	@Deprecated
 	public void showMessage(String _s) {
 		Toast.makeText(getApplicationContext(), _s, Toast.LENGTH_SHORT).show();
 	}
-}
+}
