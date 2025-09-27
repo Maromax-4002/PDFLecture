@@ -27,7 +27,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.bumptech.glide.Glide;
-import com.github.barteksc.pdfviewer.*;
 import com.google.android.material.appbar.AppBarLayout;
 import java.io.*;
 import java.text.*;
@@ -258,3 +257,4 @@ public class MainActivity extends AppCompatActivity {
 		Toast.makeText(getApplicationContext(), _s, Toast.LENGTH_SHORT).show();
 	}
 }
+
